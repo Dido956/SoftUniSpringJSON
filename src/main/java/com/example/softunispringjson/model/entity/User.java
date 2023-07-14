@@ -1,9 +1,6 @@
 package com.example.softunispringjson.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,5 +21,7 @@ public class User extends BaseEntity {
     private Integer age;
     @ManyToMany
     private Set<User> friends;
+    @OneToMany(mappedBy = "seller",fetch = FetchType.EAGER)
+    private Set<Product> soldProducts;
 
 }

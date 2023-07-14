@@ -1,5 +1,6 @@
 package com.example.softunispringjson.service.impl;
 
+import com.example.softunispringjson.model.dto.ProductNameAndPriceDto;
 import com.example.softunispringjson.model.dto.ProductSeedDto;
 import com.example.softunispringjson.model.entity.Product;
 import com.example.softunispringjson.repository.ProductRepository;
@@ -17,6 +18,8 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.example.softunispringjson.constanats.GlobalConstants.*;
 
@@ -51,7 +54,7 @@ public class ProductServiceImpl implements ProductService {
                     Product product = modelMapper.map(productSeedDto, Product.class);
                     product.setSeller(userService.findRandomUser());
 
-                    if (productSeedDto.getPrice().compareTo(BigDecimal.valueOf(500)) > 0) {
+                    if (productSeedDto.getPrice().compareTo(BigDecimal.valueOf(900)) > 0) {
                         product.setBuyer(userService.findRandomUser());
                     }
                     product.setCategories(categoryService.findRandomCategorySet());
@@ -59,5 +62,23 @@ public class ProductServiceImpl implements ProductService {
                     return product;
                 })
                 .forEach(productRepository::save);
+    }
+
+    @Override
+    public List<ProductNameAndPriceDto> findAllByPriceBetweenAndBuyerIsNullOrderByPriceDesc(BigDecimal lower, BigDecimal upper) {
+        return productRepository
+                .findAllByPriceBetweenAndBuyerIsNullOrderByPriceDesc(lower, upper)
+                .stream()
+                .map(product -> {
+                    ProductNameAndPriceDto productNameAndPriceDto = modelMapper.map(product, ProductNameAndPriceDto.class);
+
+                    productNameAndPriceDto.setSeller(String.format("%s %s",
+                            product.getSeller().getFirstName(),
+                            product.getSeller().getFirstName()));
+
+                    return productNameAndPriceDto;
+                })
+                .collect(Collectors.toList());
+
     }
 }

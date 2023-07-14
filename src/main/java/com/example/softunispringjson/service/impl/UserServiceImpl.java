@@ -1,6 +1,7 @@
 package com.example.softunispringjson.service.impl;
 
 import com.example.softunispringjson.model.dto.UserSeedDto;
+import com.example.softunispringjson.model.dto.UserSoldDto;
 import com.example.softunispringjson.model.entity.User;
 import com.example.softunispringjson.repository.UserRepository;
 import com.example.softunispringjson.service.UserService;
@@ -14,7 +15,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 import static com.example.softunispringjson.constanats.GlobalConstants.*;
 
@@ -48,5 +51,14 @@ public class UserServiceImpl implements UserService {
                 .findById(randomId)
                 .orElse(null);
 
+    }
+
+    @Override
+    public List<UserSoldDto> findAllUserWithMoreThanOneSoldProduct() {
+        return userRepository
+                .findAllUsersWhereSoldProductsIsMoreThanOneOrderByLastNameAndFirstName()
+                .stream()
+                .map(user -> modelMapper.map(user, UserSoldDto.class))
+                .collect(Collectors.toList());
     }
 }
