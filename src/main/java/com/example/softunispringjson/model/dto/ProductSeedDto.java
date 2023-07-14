@@ -1,2 +1,22 @@
-package com.example.softunispringjson.model.dto;public class ProdcutSeedDto {
+package com.example.softunispringjson.model.dto;
+
+import com.google.gson.annotations.Expose;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.math.BigDecimal;
+
+@Getter
+@Setter
+@NoArgsConstructor
+public class ProductSeedDto {
+    @Expose
+    @Size(min = 3)
+    private String name;
+    @Expose
+    @Positive
+    private BigDecimal price;
 }
