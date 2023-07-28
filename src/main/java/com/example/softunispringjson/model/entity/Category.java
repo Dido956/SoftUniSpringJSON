@@ -1,13 +1,13 @@
-package com.example.softunispringjson.model.entity;
+package com.softuni.XMLdemo.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "categories")
@@ -18,6 +18,8 @@ public class Category extends BaseEntity {
 
     @Column(length = 15, nullable = false, unique = true)
     private String name;
+    @ManyToMany(mappedBy = "categories",fetch = FetchType.EAGER)
+    private Set<Product> products;
 
     @Override
     public boolean equals(Object o) {

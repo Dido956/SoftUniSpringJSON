@@ -1,5 +1,6 @@
 package com.example.softunispringjson.service.impl;
 
+import com.example.softunispringjson.model.dto.CategoryWithCountAndAverageAndTotalDto;
 import com.example.softunispringjson.model.dto.ProductNameAndPriceDto;
 import com.example.softunispringjson.model.dto.ProductSeedDto;
 import com.example.softunispringjson.model.entity.Product;
@@ -80,5 +81,11 @@ public class ProductServiceImpl implements ProductService {
                 })
                 .collect(Collectors.toList());
 
+    }
+
+    @Override
+    public List<CategoryWithCountAndAverageAndTotalDto> findAllCategoryNamesWithTheirNumberOfProductsAveragePriceAndTotalRevenue() {
+
+        return null;
     }
 }

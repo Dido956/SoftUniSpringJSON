@@ -1,6 +1,7 @@
 package com.example.softunispringjson.service.impl;
 
 import com.example.softunispringjson.model.dto.CategorySeedDto;
+import com.example.softunispringjson.model.dto.CategoryWithCountAndAverageAndTotalDto;
 import com.example.softunispringjson.model.entity.Category;
 import com.example.softunispringjson.repository.CategoryRepository;
 import com.example.softunispringjson.service.CategoryService;
@@ -15,8 +16,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 import static com.example.softunispringjson.constanats.GlobalConstants.*;
 
@@ -62,5 +65,14 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         return categorySet;
+    }
+
+    @Override
+    public List<CategoryWithCountAndAverageAndTotalDto> findAllCategoryNamesWithTheirNumberOfProductsAveragePriceAndTotalRevenue() {
+        List<CategoryWithCountAndAverageAndTotalDto> collect = categoryRepository
+                .findAllCategoryNamesWithTheirNumberOfProductsAveragePriceAndTotalRevenue()
+                .stream()
+                .map(category -> modelMapper.map(category, CategoryWithCountAndAverageAndTotalDto.class)).collect(Collectors.toList());
+        return collect;
     }
 }

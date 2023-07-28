@@ -1,5 +1,6 @@
 package com.example.softunispringjson;
 
+import com.example.softunispringjson.model.dto.CategoryWithCountAndAverageAndTotalDto;
 import com.example.softunispringjson.model.dto.ProductNameAndPriceDto;
 import com.example.softunispringjson.model.dto.UserSoldDto;
 import com.example.softunispringjson.service.CategoryService;
@@ -24,6 +25,7 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
     private static final String OUTPUT_FOLDER_PATH = "src/main/resources/files/out/";
     private static final String PRODUCTS_IN_RANGE_FILE_NAME = "products-in-range.json";
     private static final String USERS_AND_SOLD_PRODUCTS = "users-and-sold-products.json";
+    private static final String CATEGORIES_WITH_COUNT_AVG_SUM = "categories-count-avg-sum.json";
     private final CategoryService categoryService;
     private final UserService userService;
     private final ProductService productService;
@@ -47,8 +49,18 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         switch (exNum) {
             case 1 -> productsInRange();
             case 2 -> soldProducts();
+            case 3 -> productCount();
         }
 
+    }
+
+    private void productCount() throws IOException {
+        List<CategoryWithCountAndAverageAndTotalDto> categoryDtos = categoryService
+                .findAllCategoryNamesWithTheirNumberOfProductsAveragePriceAndTotalRevenue();
+
+        String content = gson.toJson(categoryDtos);
+
+        writeToFile(OUTPUT_FOLDER_PATH + CATEGORIES_WITH_COUNT_AVG_SUM, content);
     }
 
     private void soldProducts() throws IOException {

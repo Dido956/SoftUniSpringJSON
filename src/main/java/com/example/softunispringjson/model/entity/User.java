@@ -1,4 +1,4 @@
-package com.example.softunispringjson.model.entity;
+package com.softuni.XMLdemo.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

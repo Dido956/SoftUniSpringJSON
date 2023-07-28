@@ -1,4 +1,4 @@
-package com.example.softunispringjson.model.entity;
+package com.softuni.XMLdemo.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -21,6 +21,9 @@ public class Product extends BaseEntity{
     private User seller;
     @ManyToOne
     private User buyer;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "product_categories",
+    joinColumns = @JoinColumn(name = "product_id"),
+    inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories;
 }
